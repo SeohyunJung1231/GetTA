@@ -1,2 +1,2 @@
-# getTA
-getTA is an abbreviation for 'get the aircraft'. This project allows people to rent an entire aircraft.
+# GetTA
+GetTA is an abbreviation for 'get the aircraft'. This project allows people to rent an entire aircraft.
