@@ -16,6 +16,7 @@ class AircraftController(
 ) {
     @PostMapping("/{aircraftId}/schedules")
     fun register(@PathVariable aircraftId: Long, @RequestBody schedules: List<Schedule>): Boolean {
+        val aircraft = aircraftRepository.findById(aircraftId).get()
         scheduleRepository.saveAll(
             schedules.map {
                 Schedule(
@@ -24,7 +25,7 @@ class AircraftController(
                     departTime = it.departTime,
                     arriveTime = it.arriveTime,
                     durationMin = it.durationMin,
-                    aircraftId = aircraftId
+                    aircraft = aircraft
                 )
             }
         )

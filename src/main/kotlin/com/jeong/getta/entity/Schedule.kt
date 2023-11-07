@@ -1,9 +1,6 @@
 package com.jeong.getta.entity
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
@@ -17,5 +14,7 @@ data class Schedule(
     val arriveTime: LocalDateTime,
     val durationMin: Long,
 
-    val aircraftId: Long
+    @ManyToOne
+    @JoinColumn
+    val aircraft: Aircraft
 )
