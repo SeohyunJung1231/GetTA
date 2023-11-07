@@ -8,10 +8,10 @@ import jakarta.persistence.Id
 data class Aircraft(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0L,
     val uuid: String,
     val name: String,
     val manufacturer: String,
-    val fare: Int,
+    var fare: Int,
     val ownerId: Long
 )

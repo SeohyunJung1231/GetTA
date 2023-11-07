@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 data class Schedule(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0L,
     val departures: String,
     val arrivals: String,
     val departTime: LocalDateTime,
