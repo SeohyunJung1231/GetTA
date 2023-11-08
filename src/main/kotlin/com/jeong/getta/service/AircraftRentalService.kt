@@ -102,14 +102,15 @@ class AircraftRentalService(
                     uuid = aircraft.uuid,
                     name = aircraft.name,
                     manufacturer = aircraft.manufacturer,
-                    fare = aircraft.fare
+                    capacity = aircraft.capacity
                 ),
                 schedule = Schedule(
                     departTime = schedule.departTime,
                     arriveTime = schedule.arriveTime,
                     departures = schedule.departures,
                     arrivals = schedule.arrivals,
-                    durationMin = schedule.durationMin
+                    durationMin = schedule.durationMin,
+                    fare = schedule.fare
                 ),
                 status = it.status,
                 requestTime = it.initTime

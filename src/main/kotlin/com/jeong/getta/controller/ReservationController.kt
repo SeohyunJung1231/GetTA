@@ -2,6 +2,7 @@ package com.jeong.getta.controller
 
 import com.jeong.getta.service.AircraftRentalService
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.*
 
@@ -24,7 +25,7 @@ class ReservationController(
     @Operation(summary = "예약 요청된 항공기의 확정", description = "소유자가 예약 요청을 확정합니다")
     @PostMapping("/{reservationId}")
     fun confirm(
-        @PathVariable reservationId: Long
+        @Parameter(description = "예약 번호") @PathVariable reservationId: Long
     ): Boolean {
         service.confirm(reservationId)
         return true
@@ -33,7 +34,7 @@ class ReservationController(
     @Operation(summary = "요청된 항공기 예약의 거부", description = "소유자가 예약 요청을 거부합니다")
     @DeleteMapping("/{reservationId}/reject")
     fun reject(
-        @PathVariable reservationId: Long
+        @Parameter(description = "예약 번호") @PathVariable reservationId: Long
     ): Boolean {
         service.reject(reservationId)
         return true

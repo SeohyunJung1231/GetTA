@@ -1,17 +1,17 @@
 package com.jeong.getta.service
 
-import com.jeong.getta.repo.AircraftRepository
+import com.jeong.getta.repo.ScheduleRepository
 import org.springframework.stereotype.Service
 
 @Service
 class AircraftManageService(
-    private val repository: AircraftRepository
+    private val repository: ScheduleRepository
 ) {
-    fun update(aircraftId: Long, fare: Int): Boolean {
-        val aircraft = repository.findById(aircraftId).get()
-        aircraft.fare = fare
+    fun update(scheduleId: Long, fare: Int): Boolean {
+        val schedule = repository.findById(scheduleId).get()
+        schedule.fare = fare
 
-        repository.save(aircraft)
+        repository.save(schedule)
         return true
     }
 }

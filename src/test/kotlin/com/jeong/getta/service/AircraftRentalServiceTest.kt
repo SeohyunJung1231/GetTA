@@ -25,16 +25,17 @@ class AircraftRentalServiceTest : BehaviorSpec({
         initTime = LocalDateTime.now(),
         status = ReservationStatus.PENDING,
         schedule = Schedule(
-            departures = "Seoul",
-            arrivals = "Cheongju",
+            departures = LandingSite.KIMPO,
+            arrivals = LandingSite.CHEONGJU,
             departTime = LocalDateTime.now(),
             arriveTime = LocalDateTime.now().plusHours(2),
             durationMin = 60,
+            fare = 3000000,
             aircraft = Aircraft(
                 uuid = UUID.randomUUID().toString(),
                 name = "JOBY",
                 manufacturer = "조비에비에이션",
-                fare = 3000000,
+                capacity = 4,
                 ownerId = 1L
             )
         )

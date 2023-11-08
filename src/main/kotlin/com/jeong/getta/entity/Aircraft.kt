@@ -4,6 +4,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+
 @Entity
 data class Aircraft(
     @Id
@@ -12,6 +13,7 @@ data class Aircraft(
     val uuid: String,
     val name: String,
     val manufacturer: String,
-    var fare: Int,
-    val ownerId: Long
+    val capacity: Short,
+
+    val ownerId: Long //TODO @OneToMany로 FK 연결
 )
