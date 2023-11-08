@@ -13,5 +13,10 @@ data class History(
     val fromStatus: ReservationStatus,
     @Enumerated(EnumType.STRING)
     val toStatus: ReservationStatus,
-    val reservationId: Long
+    val action: ReservationAction,
+    val reservationId: Long,
+    val renterId: Long
 )
+enum class ReservationAction {
+    REQUEST, CONFIRM, REJECT, CANCEL
+}

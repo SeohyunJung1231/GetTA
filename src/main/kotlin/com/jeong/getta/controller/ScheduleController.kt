@@ -1,6 +1,8 @@
 package com.jeong.getta.controller
 
+import com.jeong.getta.domain.Aircraft
 import com.jeong.getta.domain.Schedule
+import com.jeong.getta.entity.LandingSite
 import com.jeong.getta.repo.ScheduleRepository
 import com.jeong.getta.service.AircraftRentalService
 import io.swagger.v3.oas.annotations.Operation
@@ -22,31 +24,58 @@ class ScheduleController(
         @Parameter(description = "스케줄 아이디") @PathVariable scheduleId: Long
     ): Schedule? {
         val schedule = scheduleRepository.findById(scheduleId).get()
+        val aircraft = schedule.aircraft
         return Schedule(
             departures = schedule.departures,
             arrivals = schedule.arrivals,
             departTime = schedule.departTime,
             arriveTime = schedule.arriveTime,
             durationMin = schedule.durationMin,
-            fare = schedule.fare
+            fare = schedule.fare,
+            aircraft = Aircraft(
+                uuid = aircraft.uuid,
+                name = aircraft.name,
+                manufacturer = aircraft.manufacturer,
+                capacity = aircraft.capacity
+            )
         )
     }
+
     @Operation(summary = "스케줄 목록 조회", description = "스케줄 목록을 조회합니다.")
     @GetMapping
     fun getSchedules(
-        @Parameter(description = "출발지") @RequestParam departures: String,
-        @Parameter(description = "도착지") @RequestParam arrivals: String,
-        @Parameter(description = "날짜") @RequestParam date: LocalDate
+        @Parameter(description = "출발지") @RequestParam departures: LandingSite,
+        @Parameter(description = "도착지") @RequestParam arrivals: LandingSite,
+        @Parameter(description = "날짜", example = "2023-11-08") @RequestParam date: LocalDate
     ): List<Schedule> {
-        return listOf()
+        return scheduleRepository.findAllBy(
+            departures.toString(),
+            arrivals.toString(),
+            date
+        ).map {
+            Schedule(
+                departures = it.departures,
+                arrivals = it.arrivals,
+                departTime = it.departTime,
+                arriveTime = it.arriveTime,
+                durationMin = it.durationMin,
+                fare = it.fare,
+                aircraft = Aircraft(
+                    uuid = it.aircraft.uuid,
+                    name = it.aircraft.name,
+                    manufacturer = it.aircraft.manufacturer,
+                    capacity = it.aircraft.capacity
+                )
+            )
+        }
     }
+
     @Operation(summary = "스케줄 예약 요청", description = "스케줄 예약을 요청합니다.")
     @PostMapping("/{scheduleId}/reservations")
     fun requestReservation(
         @Parameter(description = "스케줄 아이디") @PathVariable scheduleId: Long,
         @Parameter(description = "대여자 아이디") @RequestParam renterId: Long
-    ): Boolean {
-        aircraftRentalService.requestBy(renterId, scheduleId)
-        return true
+    ): Long {
+        return aircraftRentalService.requestBy(renterId, scheduleId).id
     }
 }

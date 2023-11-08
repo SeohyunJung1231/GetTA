@@ -5,6 +5,7 @@ import com.jeong.getta.domain.ReservationInfo
 import com.jeong.getta.domain.Schedule
 import com.jeong.getta.entity.History
 import com.jeong.getta.entity.Reservation
+import com.jeong.getta.entity.ReservationAction
 import com.jeong.getta.entity.ReservationStatus
 import com.jeong.getta.repo.HistoryRepository
 import com.jeong.getta.repo.ReservationRepository
@@ -19,15 +20,15 @@ class AircraftRentalService(
     private val historyRepository: HistoryRepository,
     private val scheduleRepository: ScheduleRepository
 ) {
-    fun requestBy(renterId: Long, scheduleId: Long): Long {
-        val id = reservationRepository.save(
+    fun requestBy(renterId: Long, scheduleId: Long): Reservation {
+        val reservation = reservationRepository.save(
             Reservation(
                 renterId = renterId,
                 schedule = scheduleRepository.findById(scheduleId).get(),
                 initTime = LocalDateTime.now(),
                 status = ReservationStatus.PENDING
             )
-        ).id
+        )
 
         paymentService.makePayment()
 
@@ -36,13 +37,15 @@ class AircraftRentalService(
                 time = LocalDateTime.now(),
                 fromStatus = ReservationStatus.AVAILABLE,
                 toStatus = ReservationStatus.PENDING,
-                reservationId = id
+                action = ReservationAction.REQUEST,
+                reservationId = reservation.id,
+                renterId = reservation.renterId
             )
         )
-        return id
+        return reservation
     }
 
-    fun confirm(reservationId: Long) {
+    fun confirm(reservationId: Long): Long {
         val reservation = reservationRepository.findById(reservationId).get()
         check(reservation.status == ReservationStatus.PENDING)
 
@@ -52,9 +55,12 @@ class AircraftRentalService(
                 time = LocalDateTime.now(),
                 fromStatus = ReservationStatus.PENDING,
                 toStatus = reservation.status,
-                reservationId = reservationId
+                action = ReservationAction.CONFIRM,
+                reservationId = reservationId,
+                renterId = reservation.renterId
             )
         )
+        return reservation.id
     }
 
     fun reject(reservationId: Long) {
@@ -69,7 +75,9 @@ class AircraftRentalService(
                 time = LocalDateTime.now(),
                 fromStatus = ReservationStatus.PENDING,
                 toStatus = reservation.status,
-                reservationId = reservationId
+                action = ReservationAction.REJECT,
+                reservationId = reservationId,
+                renterId = reservation.renterId
             )
         )
     }
@@ -86,31 +94,34 @@ class AircraftRentalService(
                 time = LocalDateTime.now(),
                 fromStatus = ReservationStatus.CONFIRMED,
                 toStatus = reservation.status,
-                reservationId = reservationId
+                action = ReservationAction.CANCEL,
+                reservationId = reservationId,
+                renterId = reservation.renterId
             )
         )
         return true
     }
 
     fun getBy(renterId: Long): List<ReservationInfo> {
-        val reservations = reservationRepository.findAllByRenterId(renterId)
+        val reservations =
+            reservationRepository.findAllByRenterIdAndStatusNot(renterId, ReservationStatus.AVAILABLE)
         return reservations.map {
             val aircraft = it.schedule.aircraft
             val schedule = it.schedule
             ReservationInfo(
-                aircraft = Aircraft(
-                    uuid = aircraft.uuid,
-                    name = aircraft.name,
-                    manufacturer = aircraft.manufacturer,
-                    capacity = aircraft.capacity
-                ),
                 schedule = Schedule(
                     departTime = schedule.departTime,
                     arriveTime = schedule.arriveTime,
                     departures = schedule.departures,
                     arrivals = schedule.arrivals,
                     durationMin = schedule.durationMin,
-                    fare = schedule.fare
+                    fare = schedule.fare,
+                    aircraft = Aircraft(
+                        uuid = aircraft.uuid,
+                        name = aircraft.name,
+                        manufacturer = aircraft.manufacturer,
+                        capacity = aircraft.capacity
+                    )
                 ),
                 status = it.status,
                 requestTime = it.initTime

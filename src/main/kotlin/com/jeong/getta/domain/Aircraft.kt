@@ -11,5 +11,5 @@ data class Aircraft(
     @Schema(description = "제조사 명", nullable = false, example = "Joby Aviation")
     val manufacturer: String,
     @Schema(description = "정원", nullable = false, example = "4")
-    val capacity: Short,
+    val capacity: Short
 )

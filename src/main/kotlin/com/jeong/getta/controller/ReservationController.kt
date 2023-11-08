@@ -26,9 +26,8 @@ class ReservationController(
     @PostMapping("/{reservationId}")
     fun confirm(
         @Parameter(description = "예약 번호") @PathVariable reservationId: Long
-    ): Boolean {
-        service.confirm(reservationId)
-        return true
+    ): Long {
+        return service.confirm(reservationId)
     }
 
     @Operation(summary = "요청된 항공기 예약의 거부", description = "소유자가 예약 요청을 거부합니다")
@@ -43,7 +42,7 @@ class ReservationController(
     @Operation(summary = "확정된 항공기 예약의 취소", description = "대여자 또는 소유자가 확정된 예약을 취소합니다")
     @DeleteMapping("/{reservationId}/cancel")
     fun cancel(
-        @PathVariable reservationId: Long
+        @Parameter(description = "예약 번호") @PathVariable reservationId: Long
     ): Boolean {
         service.cancel(reservationId)
         return true

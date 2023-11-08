@@ -84,7 +84,8 @@ class OwnerController(
         @Parameter(description = "항공 요금") @RequestParam fare: Int
     ): Boolean {
         // check owner authority
-        return aircraftManageService.update(scheduleId, fare)
+        aircraftManageService.update(scheduleId, fare)
+        return true
     }
 
     @Operation(summary = "등록된 항공기의 제거", description = "등록한 항공기를 제거합니다..")

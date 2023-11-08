@@ -10,7 +10,7 @@ data class Renter(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
-    val userId: String,
+    val username: String,
     val password: String,
     val name: String
 )

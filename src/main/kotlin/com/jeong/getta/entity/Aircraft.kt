@@ -1,9 +1,6 @@
 package com.jeong.getta.entity
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 
 @Entity
 data class Aircraft(
@@ -15,5 +12,8 @@ data class Aircraft(
     val manufacturer: String,
     val capacity: Short,
 
-    val ownerId: Long //TODO @OneToMany로 FK 연결
+    val ownerId: Long,
+
+    @OneToMany(mappedBy = "aircraft", orphanRemoval = true)
+    val schedules: List<Schedule> = listOf()
 )

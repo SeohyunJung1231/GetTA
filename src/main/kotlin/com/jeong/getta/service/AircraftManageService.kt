@@ -7,11 +7,10 @@ import org.springframework.stereotype.Service
 class AircraftManageService(
     private val repository: ScheduleRepository
 ) {
-    fun update(scheduleId: Long, fare: Int): Boolean {
+    fun update(scheduleId: Long, fare: Int) {
         val schedule = repository.findById(scheduleId).get()
         schedule.fare = fare
 
         repository.save(schedule)
-        return true
     }
 }

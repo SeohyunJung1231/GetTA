@@ -1,6 +1,8 @@
 package com.jeong.getta.controller
 
+import com.jeong.getta.domain.History
 import com.jeong.getta.domain.ReservationInfo
+import com.jeong.getta.repo.HistoryRepository
 import com.jeong.getta.service.AircraftRentalService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/renters")
 class RenterController(
-    private val service: AircraftRentalService
+    private val service: AircraftRentalService,
+    private val historyRepository: HistoryRepository
 ) {
     @Operation(summary = "예약한 항공기 조회", description = "대여자가 예약한 항공기 목록을 조회합니다.")
     @GetMapping("/{renterId}/reservations")
@@ -22,5 +25,12 @@ class RenterController(
         @Parameter(description = "대여자 아이디") @PathVariable renterId: Long
     ): List<ReservationInfo> {
         return service.getBy(renterId)
+    }
+    @Operation(summary = "예약 히스토리 조회", description = "대여자의 예약 히스토리를 조회합니다.")
+    @GetMapping("/{renterId}/reservations/history")
+    fun getHistory(
+        @Parameter(description = "대여자 아이디") @PathVariable renterId: Long
+    ): List<History> {
+        return historyRepository.findAllByRenterId(renterId)
     }
 }
