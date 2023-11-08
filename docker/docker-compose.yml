@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0.32
+    container_name: getta-mysql
+    volumes:
+      - ~/develop/docker-volumes/mysql/getta:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: getta
+    ports:
+      - '3306:3306'
