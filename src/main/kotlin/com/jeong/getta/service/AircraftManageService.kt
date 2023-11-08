@@ -14,5 +14,4 @@ class AircraftManageService(
         repository.save(aircraft)
         return true
     }
-
 }

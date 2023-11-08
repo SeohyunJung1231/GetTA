@@ -2,6 +2,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+      show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
 
 mysql:
   datasource:
