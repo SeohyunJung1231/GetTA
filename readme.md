@@ -1,4 +1,34 @@
+# 프로젝트 개요
+해당 프로젝트는 30인 이하 소형 항공기를 단체 대여할 수 있는 시스템이다. 
+시스템명은 `GetTA`이며, 해당 문서는 기획과 데모, 설계, 프로젝트 관리한 내용을 담고 있다.
 
+## 1. 기획
+
+![system-define.png](docs/plan/system-define.png)
+![project-management.png](docs/plan/project-management.png)
+![srs.png](docs/plan/srs.png)
+![usecase-diagram.png](docs/plan/usecase-diagram.png)
+![usecase-specification.png](docs/plan/usecase-specification.png)
+
+## 2. 데모
+
+![restAPI.png](docs/demo/restAPI.png)
+![test.png](docs/demo/test.png)
+
+## 3. 설계
+
+![class-structure.png](docs/architecture/class-structure.png)
+![sequence-flow1.png](docs/architecture/sequence-flow1.png)
+![sequence-flow2.png](docs/architecture/sequence-flow2.png)
+![database.png](docs/architecture/database.png)
+
+## 3. 프로젝트 관리
+
+![flow.png](docs/management/flow.png)
+![outputs1.png](docs/management/outputs1.png)
+![outputs2.png](docs/management/outputs2.png)
+
+---
 # 개발 환경 설정
 다음은 로컬 개발환경을 만들기 위한 설정들의 일련의 과정을 설명한다.
 ### 1) java 설치
