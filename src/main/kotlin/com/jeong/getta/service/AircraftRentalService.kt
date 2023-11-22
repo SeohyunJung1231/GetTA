@@ -13,6 +13,16 @@ import com.jeong.getta.repo.ScheduleRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
+/**
+ * **예약 상태 문서**
+ *
+ * 항공기는 AVAILABLE, PENDING, CONFIRMED 예약 상태가 존재하며, 상태 변화 규칙은 다음과 같다.
+ * 1. 대여자가 항공기에 예약 요청을 보내면, PENDING 상태이다.
+ * 1. 소유자가 예약 요청을 받아드리면, CONFIRMED 상태로 변한다.
+ * 1. 소유자는 예약 요청을 거부할 수 있으며, AVAILABLE 상태로 되돌아간다.
+ * 1. 소유자와 대여자 모두 CONFIRMED 상태에서 취소할 수 있으며, AVAILABLE 상태로 되돌아간다.
+ */
+
 @Service
 class AircraftRentalService(
     private val paymentService: PaymentService,
