@@ -1,6 +1,5 @@
 package com.jeong.getta.service
 
-import com.jeong.getta.domain.Aircraft
 import com.jeong.getta.domain.ReservationInfo
 import com.jeong.getta.domain.Schedule
 import com.jeong.getta.entity.History
@@ -124,14 +123,8 @@ class AircraftRentalService(
                     arriveTime = schedule.arriveTime,
                     departures = schedule.departures,
                     arrivals = schedule.arrivals,
-                    durationMin = schedule.durationMin,
                     fare = schedule.fare,
-                    aircraft = Aircraft(
-                        uuid = aircraft.uuid,
-                        name = aircraft.name,
-                        manufacturer = aircraft.manufacturer,
-                        capacity = aircraft.capacity
-                    )
+                    aircraftId = aircraft.id
                 ),
                 status = it.status,
                 requestTime = it.initTime

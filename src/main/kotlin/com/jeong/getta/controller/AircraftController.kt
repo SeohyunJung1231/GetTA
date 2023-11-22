@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.*
 
-@Tag(name = "항공기 API", description = "항공기와 관련된 데모 API 입니다.")
+@Tag(name = "항공기 API", description = "항공기와 관련된 API 입니다.")
 @RestController
 @RequestMapping("/owners/{id}/aircrafts")
 class AircraftController(
@@ -32,11 +32,12 @@ class AircraftController(
         ).id
     }
 
-    @Operation(summary = "항공기 목록 조회", description = "소유자가 등록한 항공기 목록을 제공합니다.")
+    @Operation(summary = "항공기 목록 조회", description = "소유자가 등록한 항공기의 목록을 제공합니다.")
     @GetMapping
     fun get(
         @Parameter(description = "소유자 아이디") @PathVariable id: Long
     ): List<Aircraft> {
+        // check owner authority
         val aircrafts = aircraftRepository.findAllByOwnerId(id)
         return aircrafts.map {
             Aircraft(
@@ -48,12 +49,13 @@ class AircraftController(
         }
     }
 
-    @Operation(summary = "항공기 상세 조회", description = "하나의 항공기에 대한 상세 조회를 제공합니다.")
+    @Operation(summary = "항공기 상세 조회", description = "소유자가 등록한 항공기의 상세 조회를 제공합니다.")
     @GetMapping("/{aircraftId}")
     fun get(
         @Parameter(description = "소유자 아이디") @PathVariable id: Long,
         @Parameter(description = "항공기 아이디") @PathVariable aircraftId: Long
     ): Aircraft {
+        // check owner authority
         val aircraft = aircraftRepository.findById(aircraftId).get()
         return Aircraft(
             uuid = aircraft.uuid,
@@ -63,7 +65,7 @@ class AircraftController(
         )
     }
 
-    @Operation(summary = "등록된 항공기 제거", description = "등록한 항공기를 제거합니다..")
+    @Operation(summary = "항공기 제거", description = "소유자가 등록한 항공기를 제거합니다.")
     @DeleteMapping("/{aircraftId}")
     fun delete(
         @Parameter(description = "항공기 아이디") @PathVariable aircraftId: Long
