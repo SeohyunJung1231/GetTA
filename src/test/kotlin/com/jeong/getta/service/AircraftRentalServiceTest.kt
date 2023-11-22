@@ -41,9 +41,12 @@ class AircraftRentalServiceTest : BehaviorSpec({
         )
     )
     val anyHistory = History(
-        time = LocalDateTime.now(), fromStatus = ReservationStatus.PENDING,
+        time = LocalDateTime.now(),
+        fromStatus = ReservationStatus.PENDING,
         toStatus = ReservationStatus.CONFIRMED,
-        reservationId = anyReservation.id
+        reservationId = anyReservation.id,
+        action = ReservationAction.CANCEL,
+        renterId = anyReservation.renterId
     )
 
     given("예약 confirm 검증") {
