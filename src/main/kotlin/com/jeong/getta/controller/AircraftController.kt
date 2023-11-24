@@ -34,7 +34,7 @@ class AircraftController(
 
     @Operation(summary = "항공기 목록 조회", description = "소유자가 등록한 항공기의 목록을 제공합니다.")
     @GetMapping
-    fun get(
+    fun getAll(
         @Parameter(description = "소유자 아이디") @PathVariable id: Long
     ): List<Aircraft> {
         // check owner authority

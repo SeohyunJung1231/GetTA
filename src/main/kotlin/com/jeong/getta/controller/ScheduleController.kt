@@ -43,32 +43,9 @@ class ScheduleController(
         ).map { it.id }
     }
 
-    @Operation(summary = "스케줄 정보 수정", description = "소유자가 스케줄 정보를 수정합니다.")
-    @PutMapping("/owners/{id}/schedules/{scheduleId}")
-    fun update(
-        @Parameter(description = "소유자 아이디") @PathVariable id: Long,
-        @Parameter(description = "스케줄 아이디") @PathVariable scheduleId: Long,
-        @RequestBody schedule: Schedule
-    ) {
-        // check owner authority
-        check(scheduleService.isNotReserved(scheduleId))
-        scheduleService.update(scheduleId, schedule)
-    }
-
-    @Operation(summary = "스케줄 제거", description = "소유자가 스케줄을 제거합니다.")
-    @DeleteMapping("/owners/{id}/schedules/{scheduleId}")
-    fun delete(
-        @Parameter(description = "소유자 아이디") @PathVariable id: Long,
-        @Parameter(description = "스케줄 아이디") @PathVariable scheduleId: Long,
-    ) {
-        // check owner authority
-        check(scheduleService.isNotReserved(scheduleId))
-        scheduleRepository.deleteById(scheduleId)
-    }
-
     @Operation(summary = "스케줄 목록 조회", description = "사용자가 스케줄 목록을 조회합니다.")
     @GetMapping("/schedules")
-    fun get(
+    fun search(
         @Parameter(description = "날짜", example = "2023-11-08") @RequestParam date: LocalDate,
         @Parameter(description = "출발지") @RequestParam departures: LandingSite,
         @Parameter(description = "도착지") @RequestParam arrivals: LandingSite
@@ -106,4 +83,27 @@ class ScheduleController(
             aircraftId = aircraft.id
         )
     }
+    @Operation(summary = "스케줄 정보 수정", description = "소유자가 스케줄 정보를 수정합니다.")
+    @PutMapping("/owners/{id}/schedules/{scheduleId}")
+    fun update(
+        @Parameter(description = "소유자 아이디") @PathVariable id: Long,
+        @Parameter(description = "스케줄 아이디") @PathVariable scheduleId: Long,
+        @RequestBody schedule: Schedule
+    ) {
+        // check owner authority
+        check(scheduleService.isNotReserved(scheduleId))
+        scheduleService.update(scheduleId, schedule)
+    }
+
+    @Operation(summary = "스케줄 제거", description = "소유자가 스케줄을 제거합니다.")
+    @DeleteMapping("/owners/{id}/schedules/{scheduleId}")
+    fun delete(
+        @Parameter(description = "소유자 아이디") @PathVariable id: Long,
+        @Parameter(description = "스케줄 아이디") @PathVariable scheduleId: Long,
+    ) {
+        // check owner authority
+        check(scheduleService.isNotReserved(scheduleId))
+        scheduleRepository.deleteById(scheduleId)
+    }
+
 }

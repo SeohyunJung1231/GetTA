@@ -11,4 +11,6 @@ interface ReservationRepository : JpaRepository<Reservation, Long> {
         renterId: Long,
         status: ReservationStatus
     ): List<Reservation> = listOf()
+
+    fun findAllByScheduleIdIn(scheduleIds: Set<Long>): Set<Reservation> = setOf()
 }

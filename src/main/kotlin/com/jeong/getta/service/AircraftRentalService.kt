@@ -1,5 +1,6 @@
 package com.jeong.getta.service
 
+import com.jeong.getta.domain.Aircraft
 import com.jeong.getta.domain.ReservationInfo
 import com.jeong.getta.domain.Schedule
 import com.jeong.getta.entity.History
@@ -111,26 +112,28 @@ class AircraftRentalService(
         return true
     }
 
-    fun getBy(renterId: Long): List<ReservationInfo> {
-        val reservations =
-            reservationRepository.findAllByRenterIdAndStatusNot(renterId, ReservationStatus.AVAILABLE)
-        return reservations.map {
-            val aircraft = it.schedule.aircraft
-            val schedule = it.schedule
-            ReservationInfo(
-                schedule = Schedule(
-                    departTime = schedule.departTime,
-                    arriveTime = schedule.arriveTime,
-                    departures = schedule.departures,
-                    arrivals = schedule.arrivals,
-                    fare = schedule.fare,
-                    aircraftId = aircraft.id
-                ),
-                status = it.status,
-                requestTime = it.initTime
-            )
-        }
+    fun getBy(reservationId: Long) : ReservationInfo {
+        val reservation = reservationRepository.findById(reservationId).get()
+        val schedule = reservation.schedule
+        val aircraft = reservation.schedule.aircraft
+        return ReservationInfo(
+            schedule = Schedule(
+                departures = schedule.departures,
+                arrivals = schedule.arrivals,
+                departTime = schedule.departTime,
+                arriveTime = schedule.arriveTime,
+                fare = schedule.fare,
+                aircraftId = aircraft.id
+            ),
+            aircraft = Aircraft(
+                uuid = aircraft.uuid,
+                name = aircraft.name,
+                manufacturer = aircraft.manufacturer,
+                capacity = aircraft.capacity
+            ),
+            requestTime = reservation.initTime,
+            status = reservation.status
+        )
     }
-
 
 }
