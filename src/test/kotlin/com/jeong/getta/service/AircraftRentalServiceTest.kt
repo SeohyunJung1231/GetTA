@@ -17,8 +17,8 @@ class AircraftRentalServiceTest : BehaviorSpec({
     val reservationRepository: ReservationRepository = mockk()
     val historyRepository: HistoryRepository = mockk()
     val scheduleRepository: ScheduleRepository = mockk()
-    val aircraftRentalService =
-        AircraftRentalService(PaymentService(), reservationRepository, historyRepository, scheduleRepository)
+    val reservationService =
+        ReservationService(PaymentService(), reservationRepository, historyRepository, scheduleRepository)
 
     val anyReservation = Reservation(
         renterId = 0L,
@@ -54,7 +54,7 @@ class AircraftRentalServiceTest : BehaviorSpec({
             anyReservation.status = ReservationStatus.PENDING
             every { reservationRepository.findById(any()) } answers { Optional.of(anyReservation) }
             every { historyRepository.save(any()) } answers { anyHistory }
-            aircraftRentalService.confirm(anyReservation.id)
+            reservationService.confirm(anyReservation.id)
             then("reservation status has to be changed to CONFIRMED") {
                 anyReservation.status shouldBe ReservationStatus.CONFIRMED
             }
@@ -64,7 +64,7 @@ class AircraftRentalServiceTest : BehaviorSpec({
             every { reservationRepository.findById(any()) } answers { Optional.of(anyReservation) }
             every { historyRepository.save(any()) } answers { anyHistory }
             then("it has to throw error") {
-                shouldThrow<IllegalStateException> { aircraftRentalService.confirm(anyReservation.id) }
+                shouldThrow<IllegalStateException> { reservationService.confirm(anyReservation.id) }
             }
         }
     }
@@ -75,7 +75,7 @@ class AircraftRentalServiceTest : BehaviorSpec({
             anyReservation.status = ReservationStatus.PENDING
             every { reservationRepository.findById(any()) } answers { Optional.of(anyReservation) }
             every { historyRepository.save(any()) } answers { anyHistory }
-            aircraftRentalService.reject(anyReservation.id)
+            reservationService.reject(anyReservation.id)
             then("reservation status has to be changed to AVAILABLE") {
                 anyReservation.status shouldBe ReservationStatus.AVAILABLE
             }
@@ -85,7 +85,7 @@ class AircraftRentalServiceTest : BehaviorSpec({
             every { reservationRepository.findById(any()) } answers { Optional.of(anyReservation) }
             every { historyRepository.save(any()) } answers { anyHistory }
             then("it has to throw error") {
-                shouldThrow<IllegalStateException> { aircraftRentalService.reject(anyReservation.id) }
+                shouldThrow<IllegalStateException> { reservationService.reject(anyReservation.id) }
             }
         }
     }
@@ -95,7 +95,7 @@ class AircraftRentalServiceTest : BehaviorSpec({
             anyReservation.status = ReservationStatus.CONFIRMED
             every { reservationRepository.findById(any()) } answers { Optional.of(anyReservation) }
             every { historyRepository.save(any()) } answers { anyHistory }
-            aircraftRentalService.cancel(anyReservation.id)
+            reservationService.cancel(anyReservation.id)
             then("reservation status has to be changed to AVAILABLE") {
                 anyReservation.status shouldBe ReservationStatus.AVAILABLE
             }
@@ -105,7 +105,7 @@ class AircraftRentalServiceTest : BehaviorSpec({
             every { reservationRepository.findById(any()) } answers { Optional.of(anyReservation) }
             every { historyRepository.save(any()) } answers { anyHistory }
             then("it has to throw error") {
-                shouldThrow<IllegalStateException> { aircraftRentalService.cancel(anyReservation.id) }
+                shouldThrow<IllegalStateException> { reservationService.cancel(anyReservation.id) }
             }
         }
     }

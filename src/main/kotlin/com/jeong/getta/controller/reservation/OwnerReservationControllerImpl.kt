@@ -1,7 +1,7 @@
 package com.jeong.getta.controller.reservation
 
 import com.jeong.getta.domain.ReservationInfo
-import com.jeong.getta.service.AircraftRentalService
+import com.jeong.getta.service.ReservationService
 import com.jeong.getta.service.ReservationViewService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/owners/{id}/reservations")
 class OwnerReservationControllerImpl(
-    private val aircraftRentalService: AircraftRentalService,
+    private val reservationService: ReservationService,
     private val reservationViewService: ReservationViewService,
 ) : ReservationViewController {
 
@@ -23,7 +23,7 @@ class OwnerReservationControllerImpl(
         @Parameter(description = "예약 번호") @PathVariable reservationId: Long
     ): Long {
         // check owner authority
-        return aircraftRentalService.confirm(reservationId)
+        return reservationService.confirm(reservationId)
     }
 
     @Operation(summary = "예약 거부", description = "소유자가 요청된 약예을 거부합니다")
@@ -33,7 +33,7 @@ class OwnerReservationControllerImpl(
         @Parameter(description = "예약 번호") @PathVariable reservationId: Long
     ): Boolean {
         // check owner authority
-        aircraftRentalService.reject(reservationId)
+        reservationService.reject(reservationId)
         return true
     }
 
@@ -45,7 +45,7 @@ class OwnerReservationControllerImpl(
         @Parameter(description = "예약 번호") @PathVariable reservationId: Long
     ): Boolean {
         // check owner authority
-        aircraftRentalService.cancel(reservationId)
+        reservationService.cancel(reservationId)
         return true
     }
 
@@ -65,7 +65,7 @@ class OwnerReservationControllerImpl(
         @Parameter(description = "예약번호") @PathVariable reservationId: Long,
     ): ReservationInfo {
         // check owner authority
-        return aircraftRentalService.getBy(reservationId)
+        return reservationService.getBy(reservationId)
     }
 
 }

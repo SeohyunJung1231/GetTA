@@ -24,7 +24,7 @@ import java.time.LocalDateTime
  */
 
 @Service
-class AircraftRentalService(
+class ReservationService(
     private val paymentService: PaymentService,
     private val reservationRepository: ReservationRepository,
     private val historyRepository: HistoryRepository,

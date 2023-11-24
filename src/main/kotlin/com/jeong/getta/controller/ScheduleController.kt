@@ -43,7 +43,7 @@ class ScheduleController(
         ).map { it.id }
     }
 
-    @Operation(summary = "스케줄 목록 조회", description = "사용자가 스케줄 목록을 조회합니다.")
+    @Operation(summary = "스케줄 검색", description = "사용자가 스케줄 목록을 검색합니다.")
     @GetMapping("/schedules")
     fun search(
         @Parameter(description = "날짜", example = "2023-11-08") @RequestParam date: LocalDate,
