@@ -1,6 +1,7 @@
 package com.jeong.getta.service
 
 import com.jeong.getta.domain.Schedule
+import com.jeong.getta.entity.ReservationStatus
 import com.jeong.getta.repo.ScheduleRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,8 +24,8 @@ class ScheduleService(
         }
     }
 
-    fun isNotReserved(id: Long): Boolean {
+    fun isAvailable(id: Long): Boolean {
         val schedule = repository.findById(id).get()
-        return schedule.reservation == null
+        return schedule.reservation == null || schedule.reservation?.status == ReservationStatus.AVAILABLE
     }
 }

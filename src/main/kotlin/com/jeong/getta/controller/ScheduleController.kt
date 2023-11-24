@@ -91,7 +91,7 @@ class ScheduleController(
         @RequestBody schedule: Schedule
     ) {
         // check owner authority
-        check(scheduleService.isNotReserved(scheduleId))
+        check(scheduleService.isAvailable(scheduleId))
         scheduleService.update(scheduleId, schedule)
     }
 
@@ -102,7 +102,7 @@ class ScheduleController(
         @Parameter(description = "스케줄 아이디") @PathVariable scheduleId: Long,
     ) {
         // check owner authority
-        check(scheduleService.isNotReserved(scheduleId))
+        check(scheduleService.isAvailable(scheduleId))
         scheduleRepository.deleteById(scheduleId)
     }
 

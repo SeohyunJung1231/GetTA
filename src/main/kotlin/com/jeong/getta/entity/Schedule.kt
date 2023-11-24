@@ -23,7 +23,7 @@ data class Schedule(
 
     @OneToOne(mappedBy = "schedule", fetch = FetchType.LAZY)
     @JoinColumn
-    val reservation: Reservation? = null
+    var reservation: Reservation? = null
 )
 
 

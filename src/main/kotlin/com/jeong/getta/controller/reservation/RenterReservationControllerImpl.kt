@@ -1,7 +1,7 @@
 package com.jeong.getta.controller.reservation
 
 import com.jeong.getta.domain.ReservationInfo
-import com.jeong.getta.service.ReservationService
+import com.jeong.getta.service.ReservationManageService
 import com.jeong.getta.service.ReservationViewService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/renters/{id}/reservations")
 class RenterReservationControllerImpl(
-    private val reservationService: ReservationService,
+    private val reservationManageService: ReservationManageService,
     private val reservationViewService: ReservationViewService
 ) : ReservationViewController {
 
@@ -23,7 +23,7 @@ class RenterReservationControllerImpl(
         @Parameter(description = "스케줄 아이디") @PathVariable scheduleId: Long
     ): Long {
         // check renter authority
-        return reservationService.requestBy(id, scheduleId).id
+        return reservationManageService.requestBy(id, scheduleId).id
     }
 
     @Operation(summary = "예약 취소", description = "대여자가 확정된 예약을 취소합니다")
@@ -33,7 +33,7 @@ class RenterReservationControllerImpl(
         @Parameter(description = "예약 번호") @PathVariable reservationId: Long
     ): Boolean {
         // check renter authority
-        reservationService.cancel(reservationId)
+        reservationManageService.cancel(reservationId)
         return true
     }
 
@@ -44,7 +44,7 @@ class RenterReservationControllerImpl(
         // check renter authority
         @Parameter(description = "대여자 아이디") @PathVariable id: Long
     ): List<ReservationInfo> {
-        return reservationViewService.getByRenterId(id)
+        return reservationViewService.getAllByRenterId(id)
     }
 
     @Operation(summary = "예약 상세 조회", description = "대여자가 예약 상세 내역을 조회합니다.")
@@ -54,7 +54,7 @@ class RenterReservationControllerImpl(
         @Parameter(description = "대여자 아이디") @PathVariable reservationId: Long,
     ): ReservationInfo {
         // check renter authroiry
-        return reservationService.getBy(id)
+        return reservationViewService.getByReservationId(id)
     }
 
 }

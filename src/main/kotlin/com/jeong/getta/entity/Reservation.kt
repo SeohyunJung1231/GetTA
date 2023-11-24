@@ -12,7 +12,7 @@ data class Reservation(
     @OneToOne
     @JoinColumn
     val schedule: Schedule,
-    val initTime: LocalDateTime,
+    val initTime: LocalDateTime = LocalDateTime.now(),
     val updateTime: LocalDateTime? = null,
     @Enumerated(EnumType.STRING)
     var status: ReservationStatus

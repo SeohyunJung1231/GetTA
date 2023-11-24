@@ -14,7 +14,7 @@ class ReservationViewService(
     private val aircraftRepository: AircraftRepository
 ) {
 
-    fun getByOwnerId(id: Long): List<ReservationInfo> {
+    fun getAllByOwnerId(id: Long): List<ReservationInfo> {
         val aircrafts = aircraftRepository.findAllByOwnerId(id)
         val ownedScheduleIds = aircrafts.flatMap { it.schedules }.map { it.id }
         val reservations = reservationRepository.findAllByScheduleIdIn(ownedScheduleIds.toSet())
@@ -43,7 +43,7 @@ class ReservationViewService(
     }
 
 
-    fun getByRenterId(id: Long): List<ReservationInfo> {
+    fun getAllByRenterId(id: Long): List<ReservationInfo> {
         val reservations =
             reservationRepository.findAllByRenterIdAndStatusNot(id, ReservationStatus.AVAILABLE)
         return reservations.map {
@@ -69,4 +69,29 @@ class ReservationViewService(
             )
         }
     }
+
+    fun getByReservationId(id: Long) : ReservationInfo {
+        val reservation = reservationRepository.findById(id).get()
+        val schedule = reservation.schedule
+        val aircraft = reservation.schedule.aircraft
+        return ReservationInfo(
+            schedule = Schedule(
+                departures = schedule.departures,
+                arrivals = schedule.arrivals,
+                departTime = schedule.departTime,
+                arriveTime = schedule.arriveTime,
+                fare = schedule.fare,
+                aircraftId = aircraft.id
+            ),
+            aircraft = Aircraft(
+                uuid = aircraft.uuid,
+                name = aircraft.name,
+                manufacturer = aircraft.manufacturer,
+                capacity = aircraft.capacity
+            ),
+            requestTime = reservation.initTime,
+            status = reservation.status
+        )
+    }
+
 }

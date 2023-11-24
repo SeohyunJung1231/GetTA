@@ -1,7 +1,7 @@
 package com.jeong.getta.controller.reservation
 
 import com.jeong.getta.domain.ReservationInfo
-import com.jeong.getta.service.ReservationService
+import com.jeong.getta.service.ReservationManageService
 import com.jeong.getta.service.ReservationViewService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/owners/{id}/reservations")
 class OwnerReservationControllerImpl(
-    private val reservationService: ReservationService,
+    private val reservationManageService: ReservationManageService,
     private val reservationViewService: ReservationViewService,
 ) : ReservationViewController {
 
@@ -21,9 +21,10 @@ class OwnerReservationControllerImpl(
     fun confirm(
         @Parameter(description = "소유자 아이디") @PathVariable id: Long,
         @Parameter(description = "예약 번호") @PathVariable reservationId: Long
-    ): Long {
+    ): Boolean {
         // check owner authority
-        return reservationService.confirm(reservationId)
+        reservationManageService.confirm(reservationId)
+        return true
     }
 
     @Operation(summary = "예약 거부", description = "소유자가 요청된 약예을 거부합니다")
@@ -33,7 +34,7 @@ class OwnerReservationControllerImpl(
         @Parameter(description = "예약 번호") @PathVariable reservationId: Long
     ): Boolean {
         // check owner authority
-        reservationService.reject(reservationId)
+        reservationManageService.reject(reservationId)
         return true
     }
 
@@ -45,7 +46,7 @@ class OwnerReservationControllerImpl(
         @Parameter(description = "예약 번호") @PathVariable reservationId: Long
     ): Boolean {
         // check owner authority
-        reservationService.cancel(reservationId)
+        reservationManageService.cancel(reservationId)
         return true
     }
 
@@ -55,7 +56,7 @@ class OwnerReservationControllerImpl(
         @Parameter(description = "소유자 아이디") @PathVariable id: Long
     ): List<ReservationInfo> {
         // check owner authority
-        return reservationViewService.getByOwnerId(id)
+        return reservationViewService.getAllByOwnerId(id)
     }
 
     @Operation(summary = "예약 상세 조회", description = "소유자가 예약 상세 내역을 조회합니다.")
@@ -65,7 +66,7 @@ class OwnerReservationControllerImpl(
         @Parameter(description = "예약번호") @PathVariable reservationId: Long,
     ): ReservationInfo {
         // check owner authority
-        return reservationService.getBy(reservationId)
+        return reservationViewService.getByReservationId(reservationId)
     }
 
 }
