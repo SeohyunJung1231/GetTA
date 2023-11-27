@@ -18,7 +18,10 @@ class ReservationManageServiceTest : ShouldSpec({
     val target =
         ReservationManageService(PaymentService(), reservationRepository, scheduleRepository)
 
+    val someRenterId = 0L
+    val someScheduleId = 0L
     val someSchedule = Schedule(
+        id = someScheduleId,
         departures = LandingSite.KIMPO,
         arrivals = LandingSite.CHEONGJU,
         departTime = LocalDateTime.now(),
@@ -34,7 +37,7 @@ class ReservationManageServiceTest : ShouldSpec({
         )
     )
     val someReservation = Reservation(
-        renterId = 0L,
+        renterId = someRenterId,
         schedule = someSchedule,
         initTime = LocalDateTime.now(),
         status = ReservationStatus.PENDING
@@ -54,7 +57,7 @@ class ReservationManageServiceTest : ShouldSpec({
         should("return reservation with status PENDING") {
             someReservation.status = ReservationStatus.PENDING
 
-            target.requestBy(0L, 0L).status shouldBe ReservationStatus.PENDING
+            target.requestBy(someRenterId, someScheduleId).status shouldBe ReservationStatus.PENDING
         }
     }
 
@@ -104,7 +107,7 @@ class ReservationManageServiceTest : ShouldSpec({
 
         should("return reservation with status AVAILABLE") {
             someReservation.status = ReservationStatus.PENDING
-            target.requestBy(0L, 0L)
+            target.requestBy(someRenterId, someScheduleId)
             target.reject(someReservation.id)
 
             someReservation.status shouldBe ReservationStatus.AVAILABLE
@@ -114,7 +117,7 @@ class ReservationManageServiceTest : ShouldSpec({
 
         should("return reservation with status CONFIRMED") {
             someReservation.status = ReservationStatus.PENDING
-            target.requestBy(0L, 0L)
+            target.requestBy(someRenterId, someScheduleId)
             target.confirm(someReservation.id)
 
             someReservation.status shouldBe ReservationStatus.CONFIRMED
@@ -124,7 +127,7 @@ class ReservationManageServiceTest : ShouldSpec({
 
         should("return reservation with status AVAILABLE") {
             someReservation.status = ReservationStatus.PENDING
-            target.requestBy(0L, 0L)
+            target.requestBy(someRenterId, someScheduleId)
             target.confirm(someReservation.id)
             target.cancel(someReservation.id)
 

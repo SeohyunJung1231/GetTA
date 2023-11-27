@@ -45,24 +45,24 @@ class ScheduleServiceTest : ShouldSpec({
     }
 
     context("isAvailable") {
-        should("return True if schedule is not reserved") {
+        should("return True if not reserved schedule") {
             someSchedule.reservation = null
 
             target.isAvailable(someSchedule.id).shouldBeTrue()
         }
-        should("return True if schedule is available") {
+        should("return True if AVAILABLE schedule") {
             someSchedule.reservation = someReservation
             someSchedule.reservation?.status = ReservationStatus.AVAILABLE
 
             target.isAvailable(someSchedule.id).shouldBeTrue()
         }
-        should("return False if schedule is pending") {
+        should("return False if PENDING schedule") {
             someSchedule.reservation = someReservation
             someSchedule.reservation?.status = ReservationStatus.PENDING
 
             target.isAvailable(someSchedule.id).shouldBeFalse()
         }
-        should("return False if schedule is confirmed") {
+        should("return False if CONFIRMED schedule") {
             someSchedule.reservation = someReservation
             someSchedule.reservation?.status = ReservationStatus.CONFIRMED
 
