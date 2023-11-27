@@ -21,6 +21,10 @@
 ![sequence-flow1.png](docs/architecture/sequence-flow1.png)
 ![sequence-flow2.png](docs/architecture/sequence-flow2.png)
 ![database.png](docs/architecture/database.png)
+![test-unit&integration.png](docs/architecture/test-unit&integration.png)
+![test-unit1.png](docs/architecture/test-unit1.png)
+![test-unit2.png](docs/architecture/test-unit2.png)
+![test-system.png](docs/architecture/test-system.png)
 
 ## 3. 프로젝트 관리
 
