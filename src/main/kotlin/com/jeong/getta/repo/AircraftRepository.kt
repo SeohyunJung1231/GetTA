@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AircraftRepository : JpaRepository<Aircraft, Long> {
-    fun findAllByOwnerId(ownerId: Long): List<Aircraft> = listOf()
+    fun findAllByOwnerId(id: Long): List<Aircraft> = listOf()
 }

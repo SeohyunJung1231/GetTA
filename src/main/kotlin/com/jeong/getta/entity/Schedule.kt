@@ -9,17 +9,21 @@ data class Schedule(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
     @Enumerated(EnumType.STRING)
-    val departures: LandingSite,
+    var departures: LandingSite,
     @Enumerated(EnumType.STRING)
-    val arrivals: LandingSite,
-    val departTime: LocalDateTime,
-    val arriveTime: LocalDateTime,
-    val durationMin: Long,
+    var arrivals: LandingSite,
+    var departTime: LocalDateTime,
+    var arriveTime: LocalDateTime,
+    var durationMin: Long,
     var fare: Int,
 
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn
-    val aircraft: Aircraft
+    val aircraft: Aircraft,
+
+    @OneToOne(mappedBy = "schedule", fetch = FetchType.LAZY)
+    @JoinColumn
+    var reservation: Reservation? = null
 )
 
 
