@@ -16,11 +16,13 @@
 ![test.png](docs/demo/test.png)
 
 ## 3. 설계
-
+### 1) 클래스 및 객체 설계
 ![class-structure.png](docs/architecture/class-structure.png)
 ![sequence-flow1.png](docs/architecture/sequence-flow1.png)
 ![sequence-flow2.png](docs/architecture/sequence-flow2.png)
+### 2) 데이터베이스 설계
 ![database.png](docs/architecture/database.png)
+### 3) 테스트 설계
 ![test-unit&integration.png](docs/architecture/test-unit&integration.png)
 ![test-unit1.png](docs/architecture/test-unit1.png)
 ![test-unit2.png](docs/architecture/test-unit2.png)
